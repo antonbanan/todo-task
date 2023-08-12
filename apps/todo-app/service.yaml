@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-app
+spec:
+  selector:
+    app: todo-app
+    # role: master
+    # tier: todo-front
+  ports:
+    - protocol: TCP
+      port: 3200
+      targetPort: 3200
+  type: NodePort

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: todo
+spec:
+  containers:
+    - name: todo
+      image: docker.io/antonbanan/todo-front:latest
+      ports:
+        - containerPort: 3000

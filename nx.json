@@ -22,7 +22,10 @@
       "inputs": [
         "production",
         "^production"
-      ]
+      ],
+      "options": {
+        "generatePackageJson": true
+      }
     },
     "test": {
       "inputs": [
