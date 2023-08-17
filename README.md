@@ -7,7 +7,7 @@ Welcome to the Todo Project! This README provides a comprehensive guide to setti
 The project is organized as follows:
 
 ```sh
-todo-project/
+todo-task/
 ├── apps/
 │ ├── todo-app/
 │ │ ├── src/
@@ -39,20 +39,20 @@ todo-project/
 ```
 
 - `todo-task/`: Contains the Nx Monorepo environment.
-- `apps/`: Contains the different applications within the project.
-  - `todo-app/`: Contains the backend application.
-    - `src/tasks/`: Task-related functionality.
-    - `src/exceptions/`: Custom exceptions.
-    - `src/pipes/`: Contains a global validation pipe.
-    - `src/utils/`: Utility functions (e.g., logger, request DTO).
-  - `todo-front/`: Contains the frontend application.
-    - `app/components/`: Reusable UI components.
-    - `app/api/`: API-route to make a server-side request to `todo-app`.
-    - `app/tasks/`: Task-related components for route Users in the browser.
-    - `app/interfaces/`: TypeScript interfaces (includes expected Task model).
-    - `app/services/`: Services for data management (Contains an api-service for communication with the Nest backend).
-- `kubernetes/`: Contains Kubernetes configuration files for deploying backend, frontend, and MongoDB.
-- `README.md`: The file you're currently reading.
+  - `apps/`: Contains the different applications within the project.
+    - `todo-app/`: Contains the backend application.
+      - `src/tasks/`: Task-related functionality.
+      - `src/exceptions/`: Custom exceptions.
+      - `src/pipes/`: Contains a global validation pipe.
+      - `src/utils/`: Utility functions (e.g., logger, request DTO).
+    - `todo-front/`: Contains the frontend application.
+      - `app/components/`: Reusable UI components.
+      - `app/api/`: API-route to make a server-side request to `todo-app`.
+      - `app/tasks/`: Task-related components for route Users in the browser.
+      - `app/interfaces/`: TypeScript interfaces (includes expected Task model).
+      - `app/services/`: Services for data management (Contains an api-service for communication with the Nest backend).
+  - `kubernetes/`: Contains Kubernetes configuration files for deploying backend, frontend, and MongoDB.
+  - `README.md`: The file you're currently reading.
 
 
 ## First Setup
@@ -108,20 +108,13 @@ Use generated URL to access the API documentation in your browser (add route ‘
 
 ## Development Environment Setup
 
-1. **Clone and install the repository:**
 
-```sh
-git clone https://github.com/antonbanan/todo-task.git
-cd todo-task
-npm install
-```
-
-2. **Run mongodb in docker-compose (* install it if not installed)**
+1. **Run mongodb in docker-compose (* install it if not installed)**
 ```sh
 docker-compose -f db-local/docker-compose.yml up --build
 ```
 
-3. **Run todo-app:**
+2. **Run todo-app:**
 
 change to  ‘mongodb://127.0.0.1:27017/task' mongoDB url 
 
@@ -141,14 +134,6 @@ nx serve todo-front
 ```
 ## Testing Functionality
 
-
-1. **Clone and install the repository:**
-
-```sh
-git clone https://github.com/antonbanan/todo-task.git
-cd todo-task
-npm install
-```
 1. **Run test comands:**
 ```sh
 nx test todo-app
