@@ -9,6 +9,7 @@ tmp
 node_modules
 
 /logs
+/letsencrypt
 
 # IDEs and editors
 /.idea

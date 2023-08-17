@@ -29,7 +29,7 @@ export const ApplicationContainer = ({children}:any) => {
 					<Group style={{display: "flex", alignItems: "center", height: "100%"}} position="apart">
 						<Group>
 							<Button component="a" disabled variant="filled">
-								Todo app v 0.1.21
+								Todo app v 0.1.22
 							</Button>
 						</Group>
 						<Group>

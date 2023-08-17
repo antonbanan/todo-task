@@ -11,11 +11,7 @@ export function AppHomePage() {
       pt={60}
       h="60%"
       w="90%"
-    
-      
       component="a"
-      // href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-      // target="_blank"
     >
       <Card.Section>
         <Image
@@ -25,7 +21,7 @@ export function AppHomePage() {
       </Card.Section>
       <Card.Section>
         <Text ta="center" weight={500} size="lg" m="xl">
-          Welcome to Anton task project
+          Welcome to Antons task project
         </Text>
 
         <Text ta="center" mt="xs" color="dimmed" size="sm">
@@ -33,7 +29,7 @@ export function AppHomePage() {
         </Text>
         
         <Text ta="center" mt="xs" color="dimmed" size="sm">
-          Please click on Task button to start creating
+          Please click on 'Get Started' button to start creating your tasks
         </Text>
         <Group position='center'>
           <Button component="a" href="/tasks" variant="filled"  m="xl">
