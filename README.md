@@ -38,7 +38,7 @@ todo-project/
 
 ```
 
-- `todo-project/`: Contains the Nx Monorepo environment.
+- `todo-task/`: Contains the Nx Monorepo environment.
 - `apps/`: Contains the different applications within the project.
   - `todo-app/`: Contains the backend application.
     - `src/tasks/`: Task-related functionality.
@@ -62,7 +62,7 @@ todo-project/
 ```sh
 git clone https://github.com/antonbanan/todo-task.git
 
-cd todo-project
+cd todo-task
 ```
 
 
@@ -111,8 +111,8 @@ Use generated URL to access the API documentation in your browser (add route ‘
 1. **Clone and install the repository:**
 
 ```sh
-git clone https://github.com/your-username/todo-project.git
-cd todo-project
+git clone https://github.com/antonbanan/todo-task.git
+cd todo-task
 npm install
 ```
 
@@ -145,8 +145,8 @@ nx serve todo-front
 1. **Clone and install the repository:**
 
 ```sh
-git clone https://github.com/your-username/todo-project.git
-cd todo-project
+git clone https://github.com/antonbanan/todo-task.git
+cd todo-task
 npm install
 ```
 1. **Run test comands:**
