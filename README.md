@@ -76,12 +76,25 @@ minikube start
 
 2. **Apply Kubernetes Configurations:**
 
+Add Pods
 ```sh
 kubectl apply -f kubernetes/todo-app-deployment.yaml
+```
+```sh
 kubectl apply -f kubernetes/todo-front-deployment.yaml
+```
+```sh
 kubectl apply -f kubernetes/mongodb-deployment.yaml
+```
+
+Add services
+```sh
 kubectl apply -f kubernetes/todo-app-service.yaml
+```
+```sh
 kubectl apply -f kubernetes/todo-front-service.yaml
+```
+```sh
 kubectl apply -f kubernetes/mongodb-service.yaml
 ```
 
