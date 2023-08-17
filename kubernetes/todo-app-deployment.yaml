@@ -2,10 +2,15 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: todo-app
+  labels:
+      app: todo-app
+      role: master
+      tier: todo-front
 spec:
   containers:
     - name: todo-app
-      # image: todo-app:latestddddd
       image: docker.io/antonbanan/todo-app:latest
       ports:
         - containerPort: 3200
+
+

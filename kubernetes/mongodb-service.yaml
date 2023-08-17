@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: yamlmongodb
+  name: mongodb
 spec:
   selector:
-    app: yamlmongodb
+    app: mongodb
     role: master
     tier: todo-app
   ports:

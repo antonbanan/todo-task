@@ -1,3 +1,5 @@
+"use client"
+
 import {
   createStyles,
   Card,
@@ -10,7 +12,10 @@ import {
 } from '@mantine/core';
 import { LuBanana } from 'react-icons/lu';
 import Link from 'next/link';
-import { Task } from '../interfaces';
+import { Task } from '../services/interfaces';
+import absoluteUrl from 'next-absolute-url';
+import { useEffect, useState } from 'react';
+
 
 
 const useStyles = createStyles((theme) => ({
@@ -42,32 +47,55 @@ const useStyles = createStyles((theme) => ({
 
 }));
 
-interface TableSelectionProps {
-  data: { title: string;  body: string; id: string; complited: boolean }[];
-}
 
-export function ActionsGrid({ data }: TableSelectionProps) {
+export function TasksGrid() {
   const { classes, theme } = useStyles();
+  const [list, setList] = useState([]);
 
-  const items = data.map((item) => (
-    <UnstyledButton component={Link} key={item.title} href={`/tasks/${item.id}`} className={classes.item}>
-      <LuBanana color={theme.colors["blue"][6]} size="2rem" />
-      <Text size="xs" mt={7} weight="bolder">
-        {item.title}
-      </Text>
-    </UnstyledButton>
-  ));
+  function getItem(item: Task) {
+    return <UnstyledButton component={Link} key={item.id} href={`/tasks/${item.id}`} className={classes.item}>
+            <LuBanana color={"#ffca28"} size="2rem" />
+            <Text size="xs" mt={7} weight="bolder">
+              {item.title}
+            </Text>
+          </UnstyledButton>
+  }
 
+  useEffect(() =>{
+    async function getTaskFromServer(){
+      try {
+        const url = absoluteUrl();
+        console.log(url.origin)
+        console.log(url.host)
+        console.log(url.protocol)
+        const res = await fetch(`http://${url.host}/api/server-tasks`, {
+          method: "GET",
+          cache: "no-store",
+          headers: {
+            "Content-type": "application/json",
+          },
+        });
+        const data = await res.json();
+        console.log(data)
+        const html = data.tasks.map((item: Task) => {return getItem(item)});
+        setList(html)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getTaskFromServer();
+  }, [])
+  
   return (
-    <Card withBorder radius="md" className={classes.card}>
+    <Card  className={classes.card}>
       <Group position="apart">
         <Text className={classes.title}>Tasks</Text>
         <Anchor size="xs" color="dimmed" sx={{ lineHeight: 1 }}>
-          + 21 other tasks
+          { list.length ? '+ 21 other tasks' : ''}
         </Anchor>
       </Group>
       <SimpleGrid cols={3} mt="md">
-        {items}
+        {list}
       </SimpleGrid>
     </Card>
   );

@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ValidationPipe } from './pipes/validation.pipe';
 
 async function start() {  
   const app = await NestFactory.create(AppModule, {
@@ -8,6 +9,7 @@ async function start() {
   });
 
   app.enableCors();
+  app.useGlobalPipes(new ValidationPipe());
 
   //swagger (API DOCS) -----------------------------------------------------------------------------
   const config = new DocumentBuilder()

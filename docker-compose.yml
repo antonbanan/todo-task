@@ -10,6 +10,7 @@ networks:
 
 volumes:
   pgdata:
+  mono-node-modules: null
 
 services:
   ################################################
@@ -37,7 +38,7 @@ services:
       - --providers.docker=true # <== Enabling docker as the provider for traefik
       - --providers.docker.exposedbydefault=false # <== Don't expose every container to traefik, only expose enabled ones
       - --providers.file.filename=/dynamic.yaml # <== Referring to a dynamic configuration file
-      - --providers.docker.network=${DOCKER_COMPOSE_DIR_NAME}_web # <== Operate on the docker network named web (traefic network)
+      - --providers.docker.network=todo-project_web # <== Operate on the docker network named web (traefic network)
       ## Entrypoints Settings - https://docs.traefik.io/routing/entrypoints/#configuration ##
       - --entrypoints.web.address=:80 # <== Defining an entrypoint for port :80 named web
       - --entrypoints.web-secured.address=:443 # <== Defining an entrypoint for https on port :443 named web-secured
@@ -45,7 +46,7 @@ services:
       # - --entrypoints.api-secured.address=:${API_PORT} # <== Defining an entrypoint for https on port :3200 named api-secured
       ## Certificate Settings (Let's Encrypt) -  https://docs.traefik.io/https/acme/#configuration-examples ##
       - --certificatesresolvers.mytlschallenge.acme.tlschallenge=true # <== Enable TLS-ALPN-01 to generate and renew ACME certs
-      - --certificatesresolvers.mytlschallenge.acme.email=${ACME_MAIL} # <== Setting email for certs
+      - --certificatesresolvers.mytlschallenge.acme.email=antbongen@gmail.com # <== Setting email for certs
       - --certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json # <== Defining acme file to store cert information
     volumes:
       - ./letsencrypt:/letsencrypt # <== Volume for certs (TLS)
@@ -56,7 +57,7 @@ services:
     labels:
     #### Labels define the behavior and rules of the traefik proxy for this container ####
       - "traefik.enable=true" # <== Enable traefik on itself to view dashboard and assign subdomain to view it
-      - "traefik.http.routers.api.rule=Host(`monitor.${DOMAIN}`)" # <== Setting the domain for the dashboard
+      - "traefik.http.routers.api.rule=Host(`monitor.localhost`)" # <== Setting the domain for the dashboard
       - "traefik.http.routers.api.service=api@internal" # <== Enabling the api to be a service to access
 
   #########################################################
@@ -65,39 +66,56 @@ services:
 
   frontend: #frontend server
     container_name: frontend
-    build: 
-      context: .
-      dockerfile: apps/todo-front/Dockerfile
+    image: todo-front:docker
     networks:
       web: null
       local:
         ipv4_address: 172.24.0.7
+    ports:
+      - "3000:3000"
+
+
+  # frontend: #frontend server
+  #   container_name: frontend
+  #   extends:
+  #     file: docker-compose.base.yml
+  #     service: nx-app-base
+  #   command: npm run todo-front:dev:docker
+  #   depends_on:
+  #     - backend
+  #   networks:
+  #     web: null
+  #     local:
+  #       ipv4_address: 172.24.0.7
+  #   ports:
+  #     - "4200:4200"
+
+
     labels:
+   
       #### Labels define the behavior and rules of the traefik proxy for this container ####
       - "traefik.enable=true" # <== Enable traefik to proxy this container
       - "traefik.docker.network=todo-project_web" # nazvanie seti traefic + nazvanie papki proekta
-      - "traefik.http.routers.nginx-web.rule=Host(`app.${DOMAIN}`)" # <== Your Domain Name goes here for the http rule
+      - "traefik.http.routers.nginx-web.rule=Host(`app.localhost`)" # <== Your Domain Name goes here for the http rule
       - "traefik.http.routers.nginx-web.entrypoints=web" # <== Defining the entrypoint for http, **ref: line 30
       
-      # create redirect-https middleware via label
+      # # create redirect-https middleware via label
       - "traefik.http.middlewares.redirect-https.redirectscheme.scheme=https"
       - "traefik.http.middlewares.redirect-https.redirectscheme.permanent=true"
       # set redirect-https middleware to api-http router. @docker suffix is optional, as @file it just points to the source of configuration (can be docker label, file, k8s, etc)
-      - "traefik.http.routers.nginx-web.middlewares=redirect-https@docker"      
+      # - "traefik.http.routers.nginx-web.middlewares=redirect-https@docker"      
       
-      - "traefik.http.routers.nginx-secured.rule=Host(`app.${DOMAIN}`)" # <== Your Domain Name for the https rule 
+      - "traefik.http.routers.nginx-secured.rule=Host(`app.localhost`)" # <== Your Domain Name for the https rule 
       - "traefik.http.routers.nginx-secured.entrypoints=web-secured" # <== Defining entrypoint for https, **ref: line 31
       - "traefik.http.routers.nginx-secured.tls.certresolver=mytlschallenge" # <== Defining certsresolvers for https
   
   backend: #backend server
     container_name: backend
-    build:
-      context: .
-      dockerfile: apps/todo-app/Dockerfile
-    environment:
-      - NODE_ENV=production
+    image: todo-app:docker
     ports:
-      - "${API_PORT}:${API_PORT}"
+      - "3200:3200"
+    depends_on:
+      - db
     networks:
       web: null
       local:
@@ -106,27 +124,11 @@ services:
       #### Labels define the behavior and rules of the traefik proxy for this container ####
       - "traefik.enable=true" # <== Enable traefik to proxy this container
       - "traefik.docker.network=todo-project_web" # nazvanie seti traefic + nazvanie papki proekta!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      - "traefik.http.routers.api-web.rule=Host(`api.${DOMAIN}`)" # <== Your Domain Name goes here for the http rule
+      - "traefik.http.routers.api-web.rule=Host(`api.localhost`)" # <== Your Domain Name goes here for the http rule
       - "traefik.http.routers.api-web.entrypoints=web-secured" # <== Defining the entrypoint for http, **ref: line 30
       - "traefik.http.routers.api-web.tls.certresolver=mytlschallenge" # <== Defining certsresolvers for https
 
-  # sftp:
-  #   image: atmoz/sftp
-  #   restart: always
-  #   networks:
-  #     web: null
-  #     local:
-  #       ipv4_address: 172.24.0.13
-  #   command: ${FTP_USER_SYSTEM}:${FTP_PASS_SYSTEM}:1001
-  #   volumes:
-  #      - ./ftpdata:/home/${FTP_USER_SYSTEM}/ftpdata
-  #   labels:
-  #     - "traefik.enable=true" # <== Enable traefik to proxy this container
-  #     - "traefik.docker.network=${DOCKER_COMPOSE_DIR_NAME}_web" # nazvanie seti traefic + nazvanie papki proekta
-  #     - "traefik.tcp.routers.sftp.rule=HostSNI(`*`)"
-  #     - "traefik.tcp.routers.sftp.entrypoints=ftp-secured"
-
-     
+   
 
  #############################################
  ###     DB Container not on traefik      ####

@@ -1,0 +1,21 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+			{
+					"type": "node",
+					"request": "launch",
+					"name": "todo-front",
+					"runtimeExecutable": "nx",
+					"runtimeArgs": [
+							"serve",
+							"todo-front"
+					],
+					"console": "integratedTerminal",
+					"outFiles": [
+							"${workspaceFolder}/**/*.js",
+							"!**/node_modules/**"
+					],
+					"cwd": "${workspaceFolder}/apps/todo-front",
+			},
+	]
+}

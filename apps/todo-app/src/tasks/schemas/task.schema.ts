@@ -2,18 +2,14 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
 @Schema()
 export class Task {
-	@Prop()
+	@Prop({ required: true })
 	id: string
 
-	@Prop()
+	@Prop({ required: true })
 	title: string
 
-	@Prop()
+	@Prop({ required: true })
 	body: string
-
-	@Prop()
-	completed: boolean
-
 }
 
 export const TaskSchema = SchemaFactory.createForClass(Task);

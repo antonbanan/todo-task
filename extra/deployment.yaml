@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: todo-extra-front
+  labels:
+      app: todo-extra-front
+spec:
+  containers:
+    - name: todo-extra-front
+      image: docker.io/antonbanan/todo-extra-front:latest
+      ports:
+        - containerPort: 4200

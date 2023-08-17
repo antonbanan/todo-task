@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: todo-front
+  labels:
+      app: todo-front
+spec:
+  containers:
+    - name: todo-front
+      # image: docker.io/antonbanan/todo-front:static
+      image: docker.io/antonbanan/todo-front:latest
+      # env:
+      #   - name: NEXT_PUBLIC_API_URL
+      #     value: 10.108.124.65:3200
+      ports:
+        - containerPort: 3000

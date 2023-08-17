@@ -1,31 +1,30 @@
+// import { TasksGrid } from '../components/TasksGrid';
+// import CreateTask from '../components/CreateTask';
+
+// export default async function TaskPage() {
+//   return (<>
+//     <TasksGrid/>
+//     <CreateTask/>
+//   </>
+//   );
+// }
+
+
 "use client"
 
-import Link from 'next/link';
+import { TasksGrid } from '../components/TasksGrid';
 import CreateTask from '../components/CreateTask';
-import React, {useState, useEffect} from "react"
-import type { Task } from '../interfaces';
-import { Table } from '@mantine/core';
-import { ActionsGrid } from '../components/TasksGrid';
+import { useEffect, useState } from 'react';
+import { LoadingOverlay } from '@mantine/core';
 
 export default function TaskPage() {
-  const [Listing, setListing] = useState([]);
-  
+  const [isClient, setIsClient] = useState(false)
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch('http://todo-app.default.svc.cluster.local:3200/tasks');
-      const json = await res.json();
-      console.log(json)
-      setListing(json);
-      console.log(Listing)
-    };
+    setIsClient(true)
+  }, [])
 
-    fetchData();
-  }, []);
-  
-
-  return( <>
-    <ActionsGrid data={Listing}/>
-    <CreateTask />
-  </>
+  return (<>
+            {isClient ?  <><TasksGrid/><CreateTask/></> : <LoadingOverlay visible={!isClient} overlayBlur={500} transitionDuration={500}/>}
+          </>
   );
 }

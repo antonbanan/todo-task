@@ -9,7 +9,8 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/apps/todo-front"
+        "outputPath": "dist/apps/todo-front",
+        "webpackConfig": ".webpack/react-dev.config.js"
       },
       "configurations": {
         "development": {

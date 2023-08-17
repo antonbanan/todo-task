@@ -2,7 +2,9 @@
   "name": "@todo-project/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "todo-front:dev:docker": "nx serve todo-front --host=0.0.0.0"
+  },
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -16,17 +18,23 @@
     "@nestjs/platform-express": "^10.0.2",
     "@nestjs/swagger": "^7.1.7",
     "@nx/next": "16.6.0",
-    "axios": "^1.0.0",
+    "@types/winston": "^2.4.4",
+    "axios": "^1.4.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
     "mongoose": "^6.2.2",
-    "next": "13.4.1",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "next": "^13.4.16",
+    "next-absolute-url": "^1.2.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
     "tabler-icons-react": "^1.56.0",
     "tslib": "^2.3.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "winston": "^3.10.0",
+    "winston-daily-rotate-file": "^4.7.1"
   },
   "devDependencies": {
     "@nestjs/schematics": "^10.0.1",
@@ -50,7 +58,7 @@
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
     "babel-jest": "^29.4.1",
-    "cypress": "^12.16.0",
+    "cypress": "^4.2.0",
     "eslint": "~8.15.0",
     "eslint-config-next": "13.4.1",
     "eslint-config-prettier": "8.1.0",

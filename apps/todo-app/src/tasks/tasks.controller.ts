@@ -4,6 +4,7 @@ import { TasksService } from './tasks.service';
 import { Task } from './schemas/task.schema';
 import { createTaskDTO } from './dto/createTask.dto';
 import { updateTaskDTO } from './dto/updateTask.dto';
+import { ParamIdDTO } from '../utils/request-params-dto';
 
 
 @ApiTags('Tasks')
@@ -27,7 +28,7 @@ export class TasksController {
   @Delete(':id')
   @ApiParam({ name: 'id', description: 'Task ID', type: String })
   async delete(
-    @Param('id') id: string,
+    @Param('id') id: ParamIdDTO,
   ): Promise<Task>  {
     return this.taskService.deleteTask(id);
   }
@@ -37,7 +38,7 @@ export class TasksController {
   @Get(':id')
   @ApiParam({ name: 'id', description: 'Task ID', type: String })
   async getTask(
-    @Param('id') id: string,
+    @Param('id') id: ParamIdDTO,
   ): Promise<Task>  {
     return this.taskService.getTaskById(id);
   }
@@ -47,7 +48,7 @@ export class TasksController {
   @Patch(':id') 
   @ApiParam({ name: 'id', description: 'Task ID', type: String })
   async update(
-    @Param('id') id: string,
+    @Param('id') id: ParamIdDTO,
     @Body() task: updateTaskDTO,
   ): Promise<Task> {
     return this.taskService.updateTask(id, task);

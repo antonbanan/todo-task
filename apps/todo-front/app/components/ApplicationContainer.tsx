@@ -1,16 +1,16 @@
-import { AppShell, Button, Footer, Group, Header, Text } from "@mantine/core";
+import { AppShell, Button, Card, Center, Flex, Footer, Group, Header, Stack, Text } from "@mantine/core";
 import { LuBanana} from 'react-icons/lu';
 import React from "react";
 
 export const ApplicationContainer = ({children}:any) => {
+
 	return(
 		<AppShell
 			style={{
-				
-					background: "#FFFFFF",
-					width: "100vw",
-					height: "100vh",
-					paddingLeft: "0px"
+				background: "#FFFFFF",
+				width: "100vw",
+				height: "calc( 100vw - 162px)",
+				paddingLeft: "0px"
 		
 			}}
 			fixed
@@ -28,7 +28,9 @@ export const ApplicationContainer = ({children}:any) => {
 				<Header height={70} p="md">
 					<Group style={{display: "flex", alignItems: "center", height: "100%"}} position="apart">
 						<Group>
-							<Text size="xl" weight="bolder">Todo Task List</Text>	
+							<Button component="a" disabled variant="filled">
+								Todo app v 0.1.21
+							</Button>
 						</Group>
 						<Group>
 							<Button component="a" href="/" variant="filled">
@@ -43,7 +45,16 @@ export const ApplicationContainer = ({children}:any) => {
 				
 			}
 		>
-			{children}
+			<Stack style={{background: 'rgb(233 236 239 / 34%)'}}
+				mx="auto"
+				justify="center"
+				w="60vw" 
+				h="100%"
+				px={10}
+				// mt="0"
+			>
+				{children}
+			</Stack>
 		</AppShell>
 	)
 }

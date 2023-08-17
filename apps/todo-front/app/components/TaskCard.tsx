@@ -1,7 +1,12 @@
+"use client"
+
 import { Card, Avatar, Text, Progress, Badge, Group, ActionIcon } from '@mantine/core';
 import { LuBanana } from 'react-icons/lu';
-import { RemoveTask } from '../components/RemoveTaskModal'
+import { RemoveTask } from './RemoveTaskModal'
 import { EditTask } from './EditTaskModal';
+import { useEffect, useState } from 'react';
+import absoluteUrl from 'next-absolute-url';
+
 
 const avatars = [
   'https://avatars.githubusercontent.com/u/10353856?s=460&u=88394dfd67727327c1f7670a1764dc38a8a24831&v=4',
@@ -10,32 +15,53 @@ const avatars = [
 ];
 
 
-interface TableSelectionProps {
-  data: { title: string;  body: string; id: string; complited: boolean };
-}
+export function TaskCard({id}:any) {
+  const [task, setTask] = useState({body: '', title: '', id: '0'});
 
-export function TaskCard({data} : TableSelectionProps) {
-  console.log(data)
+  useEffect(() =>{
+    async function getTaskFromServer(){
+      try {
+        const url = absoluteUrl();
+        const res = await fetch(`http://${url.host}/api/server-tasks/${id}`, {
+          method: "GET",
+          cache: "no-store",
+          headers: {
+            "Content-type": "application/json",
+          },
+        });
+        const data = await res.json();
+        setTask(data.task)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getTaskFromServer();
+  }, [])
+
+
+
+
+
   return (
     <Card withBorder padding="lg" radius="md">
       <Group position="apart">
 				<LuBanana
 					size={60}
 					strokeWidth={2}
-					color={'#228be6'}
+					color={"#ffca28"}
 				/>
         <Badge>12 days left</Badge>
         <Group position='center'>
-          <EditTask data={data}/>
-          <RemoveTask data={data}/>
+         <EditTask task={task}/>
+         <RemoveTask task={task}/>
         </Group>
       </Group>
 
       <Text fz="lg" fw={500} mt="md">
-				{data.title}
+				{task.title}
       </Text>
       <Text fz="sm" c="dimmed" mt={5}>
-				{data.body}
+				{task.body}
       </Text>
 
       <Text c="dimmed" fz="sm" mt="md">
